@@ -52,7 +52,7 @@ const DiffResultHooks = (props: DiffResult) => {
   return (
     <>
       <span style={{ fontSize: 24 }}>{"比較結果"}</span>
-      <button onClick={exportToCsv}>Export to Excel</button>
+      <button onClick={exportToCsv}>تصدير إلى Excel</button>
       <HotTable
         ref={props.hotTableComponentDiffResult}
         data={[[""]]}
