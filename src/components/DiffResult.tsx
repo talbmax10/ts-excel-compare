@@ -1,6 +1,7 @@
 import React from "react";
 import { HotTable } from "@handsontable/react";
 import { renderDiff } from "../utils/RenderDiffTable";
+import { stripHtml } from "../utils/helper";
 
 interface DiffResult {
   hotTableComponentDiffResult: React.RefObject<any>;
@@ -27,6 +28,7 @@ const DiffResultHooks = (props: DiffResult) => {
     const processRow = (rowArray: any[]) => {
       let row = rowArray.map(cell => {
         let scell = cell === null ? "" : cell.toString();
+        scell = stripHtml(scell);
         if (scell.includes(',') || scell.includes('"')) {
           scell = '"' + scell.replace(/"/g, '""') + '"';
         }
