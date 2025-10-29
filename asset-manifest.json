@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/ts-excel-compare/static/css/main.8dea736c.chunk.css",
+    "main.js": "/ts-excel-compare/static/js/main.0527eab7.chunk.js",
+    "main.js.map": "/ts-excel-compare/static/js/main.0527eab7.chunk.js.map",
+    "runtime-main.js": "/ts-excel-compare/static/js/runtime-main.52d35c72.js",
+    "runtime-main.js.map": "/ts-excel-compare/static/js/runtime-main.52d35c72.js.map",
+    "static/css/2.4bcb6717.chunk.css": "/ts-excel-compare/static/css/2.4bcb6717.chunk.css",
+    "static/js/2.cd4ea1d1.chunk.js": "/ts-excel-compare/static/js/2.cd4ea1d1.chunk.js",
+    "static/js/2.cd4ea1d1.chunk.js.map": "/ts-excel-compare/static/js/2.cd4ea1d1.chunk.js.map",
+    "index.html": "/ts-excel-compare/index.html",
+    "precache-manifest.04006762d7113b056d5d66da61f2626f.js": "/ts-excel-compare/precache-manifest.04006762d7113b056d5d66da61f2626f.js",
+    "service-worker.js": "/ts-excel-compare/service-worker.js",
+    "static/css/2.4bcb6717.chunk.css.map": "/ts-excel-compare/static/css/2.4bcb6717.chunk.css.map",
+    "static/css/main.8dea736c.chunk.css.map": "/ts-excel-compare/static/css/main.8dea736c.chunk.css.map",
+    "static/js/2.cd4ea1d1.chunk.js.LICENSE.txt": "/ts-excel-compare/static/js/2.cd4ea1d1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.52d35c72.js",
+    "static/css/2.4bcb6717.chunk.css",
+    "static/js/2.cd4ea1d1.chunk.js",
+    "static/css/main.8dea736c.chunk.css",
+    "static/js/main.0527eab7.chunk.js"
+  ]
+}
