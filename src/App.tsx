@@ -29,7 +29,7 @@ function App() {
     JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
   );
   const [rightWorkbook, setRightWorkbook] = useState<WorkBook>();
-  const [diffBtnText] = useState(">> Diff <<");
+  const [diffBtnText] = useState("نفّذ المقارنة");
   const [hotTableComponentDiffResult] = useState(React.createRef());
 
   const leftFileSelectRef = useRef<any>(null);
@@ -103,7 +103,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" dir="rtl">
       <Row>
         <Col span={11}>
           <LeftHooks
