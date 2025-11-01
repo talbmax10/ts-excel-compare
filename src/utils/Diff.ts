@@ -1,6 +1,16 @@
+import { MutableRefObject, RefObject } from "react";
+
 const daff = require("daff");
 
-export const diff = (left: [][], right: [][], ref: React.RefObject<any>) => {
+export const diff = (
+  left: [][],
+  right: [][],
+  ref: RefObject<any> | MutableRefObject<any>
+) => {
+  if (!ref.current || !ref.current.hotInstance) {
+    return;
+  }
+
   var instance = ref.current.hotInstance;
   var result = [];
   let tableLeft = new daff.TableView(left);
