@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 interface Import {
   sheetname: string;
   sheetlist: any;
-  fileRef: React.RefObject<any>;
+  fileRef: React.RefObject<any> | React.MutableRefObject<any>;
   onFileSelectChange(e: React.ChangeEvent<HTMLInputElement>): any;
   onSheetSelectChange(e: string): any;
 }

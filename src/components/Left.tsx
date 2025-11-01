@@ -6,10 +6,12 @@ import ImportHooks from "../components/Import";
 interface Left {
   sheetname: string;
   sheetlist: any;
-  fileRef: React.RefObject<any>;
+  fileRef: React.RefObject<any> | React.MutableRefObject<any>;
 
   sheetdata: any[][] | Handsontable.RowObject[];
-  hotTableComponentLeft: React.RefObject<any>;
+  hotTableComponentLeft:
+    | React.RefObject<any>
+    | React.MutableRefObject<any>;
 
   onFileSelectChange(e: React.ChangeEvent<HTMLInputElement>): any;
   onSheetSelectChange(e: string): any;

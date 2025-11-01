@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { WorkBook } from "xlsx/types";
-import { Row, Col, Select } from "antd";
+import { Row, Col, Select, ConfigProvider } from "antd";
+import arEG from "antd/lib/locale/ar_EG";
 
 import { ExcelHelper, ExcelDomain, SheetDomain } from "./utils/ExcelHelper";
 import { diff } from "./utils/Diff";
@@ -17,14 +18,14 @@ function App() {
   var excelHelper = new ExcelHelper();
   const [leftsheetname, setLeftSheetname] = useState("Sheet1");
   const [leftsheetlist, setLeftSheetlist] = useState<any[] | null>(null);
-  const [hotTableComponentLeft] = useState(React.createRef());
+  const hotTableComponentLeft = useRef<any>(null);
   const [leftsheetdata, setLeftSheetData] = useState(
     JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
   );
   const [leftWorkbook, setLeftWorkbook] = useState<WorkBook>();
   const [rightsheetname, setRightSheetname] = useState("Sheet1");
   const [rightsheetlist, setRightSheetlist] = useState<any[] | null>(null);
-  const [hotTableComponentRight] = useState(React.createRef());
+  const hotTableComponentRight = useRef<any>(null);
   const [rightsheetdata, setRightSheetData] = useState(
     JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
   );

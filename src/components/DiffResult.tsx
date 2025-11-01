@@ -6,7 +6,9 @@ import { renderDiff } from "../utils/RenderDiffTable";
 import { stripHtml } from "../utils/helper";
 
 interface DiffResult {
-  hotTableComponentDiffResult: React.RefObject<any>;
+  hotTableComponentDiffResult:
+    | React.RefObject<any>
+    | React.MutableRefObject<any>;
 }
 
 const DiffResultHooks = (props: DiffResult) => {
