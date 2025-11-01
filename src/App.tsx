@@ -30,8 +30,8 @@ function App() {
     JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
   );
   const [rightWorkbook, setRightWorkbook] = useState<WorkBook>();
-  const diffBtnText = "نفّذ المقارنة";
-  const hotTableComponentDiffResult = useRef<any>(null);
+  const [diffBtnText] = useState("نفّذ المقارنة");
+  const [hotTableComponentDiffResult] = useState(React.createRef());
 
   const leftFileSelectRef = useRef<any>(null);
   const rightFileSelectRef = useRef<any>(null);
@@ -104,70 +104,64 @@ function App() {
   };
 
   return (
-    <ConfigProvider direction="rtl" locale={arEG}>
-      <div className="App" dir="rtl">
-        <Row>
-          <Col span={11}>
-            <LeftHooks
-              sheetname={leftsheetname}
-              sheetlist={leftsheetlist}
-              onFileSelectChange={(e) => fileHandler(e, "left")}
-              onSheetSelectChange={(e) => onSheetFieldChange(e, "left")}
-              hotTableComponentLeft={hotTableComponentLeft}
-              sheetdata={leftsheetdata}
-              fileRef={leftFileSelectRef}
-            />
-          </Col>
-          <Col span={2}>
-            <CenterHooks
-              btntext={diffBtnText}
-              onDiffBtnClick={(e) => {
-                diff(leftsheetdata, rightsheetdata, hotTableComponentDiffResult);
-              }}
-              onSampleBtnClick={(e) => {
-              setLeftSheetData(ExcelHelper.SampleDataLeft());
-              setRightSheetData(ExcelHelper.SampleDataRight());
-              }}
-              onResetBtnClick={(e) => {
-                // window.location.reload();
-                if (leftFileSelectRef.current) {
-                  leftFileSelectRef.current.value = "";
-                }
-                if (rightFileSelectRef.current) {
-                  rightFileSelectRef.current.value = "";
-                }
-                setLeftSheetlist(null);
-                setRightSheetlist(null);
-                setLeftSheetname("Sheet1");
-                setRightSheetname("Sheet1");
-                setLeftSheetData(
-                  JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
-                );
-                setRightSheetData(
-                  JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
-                );
-              }}
-            />
-          </Col>
-          <Col span={11}>
-            <RightHooks
-              sheetname={rightsheetname}
-              sheetlist={rightsheetlist}
-              onFileSelectChange={(e) => fileHandler(e, "right")}
-              onSheetSelectChange={(e) => onSheetFieldChange(e, "right")}
-              hotTableComponentRight={hotTableComponentRight}
-              sheetdata={rightsheetdata}
-              fileRef={rightFileSelectRef}
-            />
-          </Col>
-          <Col span={24} style={{ textAlign: "center" }}>
-            <DiffResultHooks
-              hotTableComponentDiffResult={hotTableComponentDiffResult}
-            />
-          </Col>
-        </Row>
-      </div>
-    </ConfigProvider>
+    <div className="App" dir="rtl">
+      <Row>
+        <Col span={11}>
+          <LeftHooks
+            sheetname={leftsheetname}
+            sheetlist={leftsheetlist}
+            onFileSelectChange={(e) => fileHandler(e, "left")}
+            onSheetSelectChange={(e) => onSheetFieldChange(e, "left")}
+            hotTableComponentLeft={hotTableComponentLeft}
+            sheetdata={leftsheetdata}
+            fileRef={leftFileSelectRef}
+          />
+        </Col>
+        <Col span={2}>
+          <CenterHooks
+            btntext={diffBtnText}
+            onDiffBtnClick={(e) => {
+              diff(leftsheetdata, rightsheetdata, hotTableComponentDiffResult);
+            }}
+            onSampleBtnClick={(e) => {
+              setLeftSheetData(ExcelHelper.SampleDataLeft);
+              setRightSheetData(ExcelHelper.SampleDataRight);
+            }}
+            onResetBtnClick={(e) => {
+              // window.location.reload();
+              leftFileSelectRef.current.value = "";
+              rightFileSelectRef.current.value = "";
+              setLeftSheetlist(null);
+              setRightSheetlist(null);
+              setLeftSheetname("Sheet1");
+              setRightSheetname("Sheet1");
+              setLeftSheetData(
+                JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
+              );
+              setRightSheetData(
+                JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
+              );
+            }}
+          />
+        </Col>
+        <Col span={11}>
+          <RightHooks
+            sheetname={rightsheetname}
+            sheetlist={rightsheetlist}
+            onFileSelectChange={(e) => fileHandler(e, "right")}
+            onSheetSelectChange={(e) => onSheetFieldChange(e, "right")}
+            hotTableComponentRight={hotTableComponentRight}
+            sheetdata={rightsheetdata}
+            fileRef={rightFileSelectRef}
+          />
+        </Col>
+        <Col span={24} style={{ textAlign: "center" }}>
+          <DiffResultHooks
+            hotTableComponentDiffResult={hotTableComponentDiffResult}
+          />
+        </Col>
+      </Row>
+    </div>
   );
 }
 
