@@ -1,33 +1,65 @@
-# Diff Tool to Compare Two Excel Spreadsheet Files
+# أداة مقارنة ملفات Excel
 
-- in **Imitation** of https://www.textcompare.org/excel/
-- github page https://yinger.github.io/ts-excel-compare/
+- مستوحاة من https://www.textcompare.org/excel/
+- صفحة GitHub Pages الأصلية https://yinger.github.io/ts-excel-compare/
 
-## Libraries used in this Tool
+## نظرة عامة
+
+تساعدك هذه الأداة على مقارنة ملفي Excel واكتشاف الفروقات بينهما بشكل مرئي وسريع. تم تعريب الواجهة بالكامل لتسهيل استخدامها من قبل المتحدثين باللغة العربية، كما تم توفير خيار لتصدير نتيجة المقارنة إلى ملف Excel.
+
+## المزايا الرئيسية
+
+- رفع ملفي Excel ومقارنتهما جنبًا إلى جنب.
+- اختيار ورقة العمل المطلوب تحليلها من كل ملف.
+- تسليط الضوء على الإضافات والحذف والتعديلات.
+- تصدير نتيجة المقارنة كملف Excel جاهز للمشاركة أو الأرشفة.
+
+## كيفية الاستخدام
+
+1. اختر الملف الأصلي من القسم الأيسر.
+2. اختر الملف المعدَّل من القسم الأيمن.
+3. انتقل بين أوراق العمل من خلال القائمة المنسدلة عند الحاجة.
+4. استخدم زر **تحميل مثال** لتجربة الأداة ببيانات افتراضية.
+5. اضغط زر **نفّذ المقارنة** لاستعراض الفروقات.
+6. استخدم زر **إعادة التعيين** لمسح البيانات والبدء من جديد.
+
+## تصدير النتائج إلى Excel
+
+بعد إظهار الفروقات يمكنك الضغط على زر **تصدير النتائج إلى Excel** لتنزيل ملف بصيغة `comparison-results.xlsx` يحتوي على جدول الفروقات بدون أي تنسيق HTML إضافي.
+
+## النشر على GitHub Pages
+
+تم تجهيز المشروع للعمل مع GitHub Pages بطريقتين: تشغيل سكربت النشر يدويًا أو الاعتماد على GitHub Actions لنشر التحديثات تلقائيًا مع كل دفع (push) إلى الفرع `main`.
+
+### النشر التلقائي (مُستحسن)
+
+1. تأكد من أن المستودع مفعَّل عليه GitHub Pages من الإعدادات (Settings ▸ Pages) مع اختيار المصدر **GitHub Actions**.
+2. ادفع الملف `.github/workflows/deploy.yml` إلى المستودع (موجود في هذا المشروع بشكل افتراضي).
+3. في كل مرة تدفع فيها تغييراتك إلى الفرع `main` سيقوم سير العمل بتثبيت الاعتماديات، تنفيذ أمر `npm run build`، ثم نشر مجلد `build` إلى GitHub Pages تلقائيًا.
+
+### النشر اليدوي
+
+1. تأكد من إعداد خاصية `homepage` في `package.json` لتشير إلى مسار صفحتك (على سبيل المثال: `https://<اسم_المستخدم>.github.io/<اسم-المستودع>`).
+2. ثبّت الاعتماديات: `npm install`.
+3. نفّذ البناء: `npm run build`.
+4. انشر التحديث: `npm run deploy`.
+
+سيقوم السكربت الأخير بإنشاء الفرع `gh-pages` ورفع ملفات البناء إليه ليتم استضافتها على GitHub Pages في حال رغبت بالنشر اليدوي.
+
+## المكتبات المستخدمة
 
 - SheetJS https://sheetjs.com/
 - Daff https://github.com/paulfitz/daff
 - Handsontable https://handsontable.com/
 - Antd https://ant.design/
 
-## How to compare two excel files for differences?
-
-Using this web tool, you can compare Excel document easily.
-Just select first/original file in left window and second/modified file in right window. Your data will automatically be extracted. First sheet is automatically selected and you can change it in the dropdown.
-
-Alternatively you can also copy and paste directly into left and right windows.
-After that click on >>Diff<< button to find diff. The Diff data will be highlighted in a nice format.
-
-For Excel export, you must have Excel or compatible spreadsheet application installed.
-
-Otherwise you can also select all (`Ctrl-A`) and copy (`Ctrl-C`) and then paste in your spreadsheet software (`Ctrl-V`).
-
-## What spreadsheet file formats does this Excel diff tool support?
+## الصيغ المدعومة
 
 - XLSX
 
-## What does +++/— indicate?
+## معنى الرموز +++ و ---
 
-- **+++** This has been added in second/modified file.
-- **—--** This has been removed in second/modified file.
-  ![diff](difference.png)
+- **+++** تمثل صفًا أو خلية تمت إضافتها في الملف المعدَّل.
+- **---** تمثل صفًا أو خلية تمت إزالتها من الملف المعدَّل.
+
+![diff](difference.png)

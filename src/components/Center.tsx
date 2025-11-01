@@ -16,9 +16,10 @@ const CenterHooks = (props: DiffBtn) => {
         type="dashed"
         size="small"
         style={{ marginTop: 150 }}
+        block
         onClick={(e) => props.onSampleBtnClick(e)}
       >
-        {"< Sample >"}
+        تحميل مثال
       </Button>
       <Button
         ref={React.createRef()}
@@ -26,6 +27,7 @@ const CenterHooks = (props: DiffBtn) => {
         type="primary"
         style={{ marginTop: 10 }}
         size="large"
+        block
         onClick={(e) => props.onDiffBtnClick(e)}
       >
         {props.btntext}
@@ -35,9 +37,10 @@ const CenterHooks = (props: DiffBtn) => {
         id="btn-clean"
         type="default"
         style={{ marginTop: 10 }}
+        block
         onClick={(e) => props.onResetBtnClick(e)}
       >
-        {" << reset >> "}
+        إعادة التعيين
       </Button>
     </div>
   );

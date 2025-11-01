@@ -29,7 +29,7 @@ const LeftHooks = (props: Left) => {
   return (
     <>
       <div className="left" style={{ padding: 10, marginTop: -25 }}>
-        <h1 style={{ marginLeft: 3 }}>{"<元・original>"}</h1>
+        <h1 style={{ marginRight: 3, textAlign: "right" }}>الملف الأصلي</h1>
         <ImportHooks
           sheetname={props.sheetname}
           sheetlist={props.sheetlist}
@@ -42,7 +42,7 @@ const LeftHooks = (props: Left) => {
         <HotTable
           ref={props.hotTableComponentLeft}
           data={props.sheetdata}
-          style={{ width: "98%" }}
+          style={{ width: "98%", direction: "ltr" }}
           settings={hotLeftSettings}
           stretchH={"all"}
         />
