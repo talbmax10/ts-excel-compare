@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 interface Import {
   sheetname: string;
   sheetlist: any;
-  fileRef: React.RefObject<any>;
+  fileRef: React.RefObject<any> | React.MutableRefObject<any>;
   onFileSelectChange(e: React.ChangeEvent<HTMLInputElement>): any;
   onSheetSelectChange(e: string): any;
 }
@@ -22,13 +22,15 @@ const ImportHooks = (props: Import) => {
         style={{ width: "50%", marginTop: 10 }}
         type="file"
         accept={ExcelHelper.SheetJSFT()}
-        aria-label="Select original file"
+        aria-label="اختر ملف Excel"
         onChange={(e) => props.onFileSelectChange(e)}
         ref={props.fileRef}
       ></input>
       <Select
         style={{ width: "40%" }}
         value={props.sheetname}
+        placeholder="اختر ورقة العمل"
+        disabled={props.sheetlist === null}
         onChange={(e) => props.onSheetSelectChange(e)}
       >
         {props.sheetlist}
