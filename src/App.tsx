@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { WorkBook } from "xlsx/types";
 import { Row, Col, Select, ConfigProvider } from "antd";
 import arEG from "antd/lib/locale/ar_EG";
@@ -30,8 +30,11 @@ function App() {
     JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
   );
   const [rightWorkbook, setRightWorkbook] = useState<WorkBook>();
-  const [diffBtnText] = useState("نفّذ المقارنة");
-  const [hotTableComponentDiffResult] = useState(React.createRef());
+  const [excludedColumns, setExcludedColumns] = useState<string[]>([]);
+  const [availableColumns, setAvailableColumns] = useState<string[]>([]);
+  const [isExcludeModalVisible, setIsExcludeModalVisible] = useState(false);
+  const diffBtnText = "نفّذ المقارنة";
+  const hotTableComponentDiffResult = useRef<any>(null);
 
   const leftFileSelectRef = useRef<any>(null);
   const rightFileSelectRef = useRef<any>(null);
@@ -103,65 +106,157 @@ function App() {
     }
   };
 
+  const collectColumnNames = useCallback(() => {
+    const columnNames: string[] = [];
+    const appendColumns = (row: any[]) => {
+      if (!row) {
+        return;
+      }
+
+      row.forEach((cell: any) => {
+        const header = cell === null || cell === undefined ? "" : cell.toString();
+        const trimmed = header.trim();
+        if (trimmed && !columnNames.includes(trimmed)) {
+          columnNames.push(trimmed);
+        }
+      });
+    };
+
+    if (leftsheetdata && leftsheetdata.length > 0) {
+      appendColumns(leftsheetdata[0]);
+    }
+
+    if (rightsheetdata && rightsheetdata.length > 0) {
+      appendColumns(rightsheetdata[0]);
+    }
+
+    return columnNames;
+  }, [leftsheetdata, rightsheetdata]);
+
+  useEffect(() => {
+    const updatedColumns = collectColumnNames();
+    setAvailableColumns(updatedColumns);
+    setExcludedColumns((prev) => prev.filter((col) => updatedColumns.includes(col)));
+  }, [collectColumnNames]);
+
+  const openExcludeColumnsModal = () => {
+    setAvailableColumns(collectColumnNames());
+    setIsExcludeModalVisible(true);
+  };
+
+  const onExcludedColumnsChange = (checked: CheckboxValueType[]) => {
+    setExcludedColumns(checked as string[]);
+  };
+
+  const closeExcludeModal = () => {
+    setIsExcludeModalVisible(false);
+  };
+
   return (
-    <div className="App" dir="rtl">
-      <Row>
-        <Col span={11}>
-          <LeftHooks
-            sheetname={leftsheetname}
-            sheetlist={leftsheetlist}
-            onFileSelectChange={(e) => fileHandler(e, "left")}
-            onSheetSelectChange={(e) => onSheetFieldChange(e, "left")}
-            hotTableComponentLeft={hotTableComponentLeft}
-            sheetdata={leftsheetdata}
-            fileRef={leftFileSelectRef}
-          />
-        </Col>
-        <Col span={2}>
-          <CenterHooks
-            btntext={diffBtnText}
-            onDiffBtnClick={(e) => {
-              diff(leftsheetdata, rightsheetdata, hotTableComponentDiffResult);
-            }}
-            onSampleBtnClick={(e) => {
-              setLeftSheetData(ExcelHelper.SampleDataLeft);
-              setRightSheetData(ExcelHelper.SampleDataRight);
-            }}
-            onResetBtnClick={(e) => {
-              // window.location.reload();
-              leftFileSelectRef.current.value = "";
-              rightFileSelectRef.current.value = "";
-              setLeftSheetlist(null);
-              setRightSheetlist(null);
-              setLeftSheetname("Sheet1");
-              setRightSheetname("Sheet1");
-              setLeftSheetData(
-                JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
-              );
-              setRightSheetData(
-                JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
-              );
-            }}
-          />
-        </Col>
-        <Col span={11}>
-          <RightHooks
-            sheetname={rightsheetname}
-            sheetlist={rightsheetlist}
-            onFileSelectChange={(e) => fileHandler(e, "right")}
-            onSheetSelectChange={(e) => onSheetFieldChange(e, "right")}
-            hotTableComponentRight={hotTableComponentRight}
-            sheetdata={rightsheetdata}
-            fileRef={rightFileSelectRef}
-          />
-        </Col>
-        <Col span={24} style={{ textAlign: "center" }}>
-          <DiffResultHooks
-            hotTableComponentDiffResult={hotTableComponentDiffResult}
-          />
-        </Col>
-      </Row>
-    </div>
+    <ConfigProvider direction="rtl" locale={arEG}>
+      <div className="App" dir="rtl">
+        <Row>
+          <Col span={11}>
+            <LeftHooks
+              sheetname={leftsheetname}
+              sheetlist={leftsheetlist}
+              onFileSelectChange={(e) => fileHandler(e, "left")}
+              onSheetSelectChange={(e) => onSheetFieldChange(e, "left")}
+              hotTableComponentLeft={hotTableComponentLeft}
+              sheetdata={leftsheetdata}
+              fileRef={leftFileSelectRef}
+            />
+          </Col>
+          <Col span={2}>
+            <CenterHooks
+              btntext={diffBtnText}
+              onDiffBtnClick={(e) => {
+                diff(
+                  leftsheetdata,
+                  rightsheetdata,
+                  hotTableComponentDiffResult,
+                  excludedColumns
+                );
+              }}
+              onSampleBtnClick={(e) => {
+                setLeftSheetData(ExcelHelper.SampleDataLeft());
+                setRightSheetData(ExcelHelper.SampleDataRight());
+              }}
+              onResetBtnClick={(e) => {
+                // window.location.reload();
+                if (leftFileSelectRef.current) {
+                  leftFileSelectRef.current.value = "";
+                }
+                if (rightFileSelectRef.current) {
+                  rightFileSelectRef.current.value = "";
+                }
+                setLeftSheetlist(null);
+                setRightSheetlist(null);
+                setLeftSheetname("Sheet1");
+                setRightSheetname("Sheet1");
+                setLeftSheetData(
+                  JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
+                );
+                setRightSheetData(
+                  JSON.parse(JSON.stringify(ExcelHelper.BlankData(12, 8)))
+                );
+                setExcludedColumns([]);
+                setAvailableColumns([]);
+                setIsExcludeModalVisible(false);
+              }}
+              onExcludeColumnsClick={(e) => {
+                openExcludeColumnsModal();
+              }}
+              excludedColumns={excludedColumns}
+            />
+          </Col>
+          <Col span={11}>
+            <RightHooks
+              sheetname={rightsheetname}
+              sheetlist={rightsheetlist}
+              onFileSelectChange={(e) => fileHandler(e, "right")}
+              onSheetSelectChange={(e) => onSheetFieldChange(e, "right")}
+              hotTableComponentRight={hotTableComponentRight}
+              sheetdata={rightsheetdata}
+              fileRef={rightFileSelectRef}
+            />
+          </Col>
+          <Col span={24} style={{ textAlign: "center" }}>
+            <DiffResultHooks
+              hotTableComponentDiffResult={hotTableComponentDiffResult}
+            />
+          </Col>
+        </Row>
+        <Modal
+          title="استثناء الأعمدة من المقارنة"
+          visible={isExcludeModalVisible}
+          okText="حفظ"
+          cancelText="إلغاء"
+          onOk={closeExcludeModal}
+          onCancel={closeExcludeModal}
+        >
+          {availableColumns.length > 0 ? (
+            <Checkbox.Group
+              style={{ width: "100%" }}
+              value={excludedColumns}
+              onChange={onExcludedColumnsChange}
+            >
+              {availableColumns.map((column) => (
+                <Checkbox
+                  key={column}
+                  value={column}
+                  style={{ display: "block", margin: "6px 0" }}
+                >
+                  {column}
+                </Checkbox>
+              ))}
+            </Checkbox.Group>
+          ) : (
+            <p>لا توجد أعمدة متاحة للاختيار. يرجى تحميل ملفات Excel أولاً.</p>
+          )}
+        </Modal>
+      </div>
+    </ConfigProvider>
   );
 }
 

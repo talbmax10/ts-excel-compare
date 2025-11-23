@@ -7,6 +7,8 @@ interface DiffBtn {
   onDiffBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
   onSampleBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
   onResetBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
+  onExcludeColumnsClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
+  excludedColumns: string[];
 }
 
 const CenterHooks = (props: DiffBtn) => {
@@ -21,6 +23,19 @@ const CenterHooks = (props: DiffBtn) => {
       >
         تحميل مثال
       </Button>
+      <Button
+        type="default"
+        style={{ marginTop: 10 }}
+        block
+        onClick={(e) => props.onExcludeColumnsClick(e)}
+      >
+        استثناء الأعمدة
+      </Button>
+      {props.excludedColumns.length > 0 ? (
+        <div style={{ marginTop: 8, fontSize: 12 }}>
+          الأعمدة المستبعدة: {props.excludedColumns.join("، ")}
+        </div>
+      ) : null}
       <Button
         ref={React.createRef()}
         id="btn-diff"
