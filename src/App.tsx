@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { WorkBook } from "xlsx/types";
-import { Row, Col, Select, ConfigProvider, Modal, Checkbox } from "antd";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { Row, Col, Select, ConfigProvider } from "antd";
 import arEG from "antd/lib/locale/ar_EG";
 
 import { ExcelHelper, ExcelDomain, SheetDomain } from "./utils/ExcelHelper";
