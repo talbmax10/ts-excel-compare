@@ -7,6 +7,8 @@ interface DiffBtn {
   onDiffBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
   onSampleBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
   onResetBtnClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
+  onExcludeColumnsClick(e: React.MouseEvent<HTMLElement, MouseEvent>): any;
+  excludedColumns: string[];
 }
 
 const CenterHooks = (props: DiffBtn) => {
@@ -16,16 +18,31 @@ const CenterHooks = (props: DiffBtn) => {
         type="dashed"
         size="small"
         style={{ marginTop: 150 }}
+        block
         onClick={(e) => props.onSampleBtnClick(e)}
       >
-        {"< Sample >"}
+        تحميل مثال
       </Button>
+      <Button
+        type="default"
+        style={{ marginTop: 10 }}
+        block
+        onClick={(e) => props.onExcludeColumnsClick(e)}
+      >
+        استثناء الأعمدة
+      </Button>
+      {props.excludedColumns.length > 0 ? (
+        <div style={{ marginTop: 8, fontSize: 12 }}>
+          الأعمدة المستبعدة: {props.excludedColumns.join("، ")}
+        </div>
+      ) : null}
       <Button
         ref={React.createRef()}
         id="btn-diff"
         type="primary"
         style={{ marginTop: 10 }}
         size="large"
+        block
         onClick={(e) => props.onDiffBtnClick(e)}
       >
         {props.btntext}
@@ -35,9 +52,10 @@ const CenterHooks = (props: DiffBtn) => {
         id="btn-clean"
         type="default"
         style={{ marginTop: 10 }}
+        block
         onClick={(e) => props.onResetBtnClick(e)}
       >
-        {" << reset >> "}
+        إعادة التعيين
       </Button>
     </div>
   );

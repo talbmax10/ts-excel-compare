@@ -6,10 +6,12 @@ import ImportHooks from "../components/Import";
 interface Right {
   sheetname: string;
   sheetlist: any;
-  fileRef: React.RefObject<any>;
+  fileRef: React.RefObject<any> | React.MutableRefObject<any>;
 
   sheetdata: any[][] | Handsontable.RowObject[];
-  hotTableComponentRight: React.RefObject<any>;
+  hotTableComponentRight:
+    | React.RefObject<any>
+    | React.MutableRefObject<any>;
 
   onFileSelectChange(e: React.ChangeEvent<HTMLInputElement>): any;
   onSheetSelectChange(e: string): any;
@@ -29,7 +31,7 @@ const RightHooks = (props: Right) => {
   return (
     <>
       <div className="right" style={{ padding: 10, marginTop: -25 }}>
-        <h1 style={{ marginLeft: 3 }}>{"<先・modified>"}</h1>
+        <h1 style={{ marginRight: 3, textAlign: "right" }}>الملف المعدَّل</h1>
         <ImportHooks
           sheetname={props.sheetname}
           sheetlist={props.sheetlist}
@@ -42,7 +44,7 @@ const RightHooks = (props: Right) => {
         <HotTable
           ref={props.hotTableComponentRight}
           data={props.sheetdata}
-          style={{ width: "98%" }}
+          style={{ width: "98%", direction: "ltr" }}
           settings={hotRightSettings}
           stretchH={"all"}
         />
