@@ -1,9 +1,10 @@
 name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (master)
 
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 concurrency:
@@ -22,17 +23,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 18
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Use Node.js 16
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 16
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build project
         run: npm run build
+        env:
+          CI: false
+          NODE_OPTIONS: --openssl-legacy-provider
 
       - name: Upload static files
         uses: actions/upload-pages-artifact@v3

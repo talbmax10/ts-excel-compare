@@ -16,9 +16,8 @@ const filterColumns = (table: any[][], excludedColumns: Set<string>) => {
 
   headerRow.forEach((cell: any, index: number) => {
     const header = cell === null || cell === undefined ? "" : cell.toString();
-    const trimmed = header.trim();
 
-    if (!excludedColumns.has(trimmed)) {
+    if (!excludedColumns.has(header)) {
       columnsToKeep.push(index);
     }
   });
@@ -48,7 +47,7 @@ export const diff = (
 
   var instance = ref.current.hotInstance;
   var result = [];
-  const excludedColumnsSet = new Set(excludedColumns.map((col) => col.trim()));
+  const excludedColumnsSet = new Set(excludedColumns);
   let tableLeft = new daff.TableView(filterColumns(left, excludedColumnsSet));
   let tableRight = new daff.TableView(filterColumns(right, excludedColumnsSet));
 
