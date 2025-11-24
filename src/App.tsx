@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { WorkBook } from "xlsx/types";
-import { Row, Col, Select, ConfigProvider } from "antd";
+import { Row, Col, Select, ConfigProvider, Checkbox, Modal } from "antd";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 import arEG from "antd/lib/locale/ar_EG";
 
 import { ExcelHelper, ExcelDomain, SheetDomain } from "./utils/ExcelHelper";
@@ -108,6 +109,8 @@ function App() {
 
   const collectColumnNames = useCallback(() => {
     const columnNames: string[] = [];
+    const collectedColumns = new Set<string>();
+
     const appendColumns = (row: any[]) => {
       if (!row) {
         return;
@@ -115,9 +118,9 @@ function App() {
 
       row.forEach((cell: any) => {
         const header = cell === null || cell === undefined ? "" : cell.toString();
-        const trimmed = header.trim();
-        if (trimmed && !columnNames.includes(trimmed)) {
-          columnNames.push(trimmed);
+        if (header && !collectedColumns.has(header)) {
+          collectedColumns.add(header);
+          columnNames.push(header);
         }
       });
     };
