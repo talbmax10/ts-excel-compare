@@ -70,6 +70,9 @@ export const diff = (
 
   if (output.height !== 0) {
     result = output.data;
-    instance.loadData(result);
+  } else {
+    result = [["لا توجد فروقات بين الملفين"]];
   }
+
+  instance.loadData(result);
 };
